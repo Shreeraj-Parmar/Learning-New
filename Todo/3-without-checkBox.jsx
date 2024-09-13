@@ -41,10 +41,19 @@ function App() {
           todo.id === id ? { ...todo, selected: !todo.selected } : todo
         )
       );
+      const hasSelectedTodos = todos.some((todo) =>
+        todo.id === id ? !todo.selected : todo.selected
+      );
+      if (!hasSelectedTodos) {
+        setIsMultiSelectMode(false);
+      }
+    } else {
+      // If not in multi-select mode, mark the task as complete
+      handleComplete(id);
     }
   };
 
-  // Mark a single task as complete (if not in multi-select mode)
+  // Mark a single task as complete
   const handleComplete = (id) => {
     if (!isMultiSelectMode) {
       setTodos(
@@ -107,7 +116,6 @@ function App() {
               style={{
                 textDecoration: todo.completed ? "line-through" : "none",
               }}
-              onClick={() => handleComplete(todo.id)}
             >
               {todo.text}
             </span>
